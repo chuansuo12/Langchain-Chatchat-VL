@@ -1,12 +1,13 @@
 from typing import List
-from langchain.document_loaders.unstructured import UnstructuredFileLoader
+from langchain.document_loaders.unstructured import UnstructuredFileLoader, UnstructuredAPIFileLoader
 import tqdm
+from unstructured.partition.utils.constants import PartitionStrategy
 
 
 class RapidOCRPDFLoader(UnstructuredFileLoader):
     def _get_elements(self) -> List:
         def pdf2text(filepath):
-            import fitz # pyMuPDF里面的fitz包，不要与pip install fitz混淆
+            import fitz  # pyMuPDF里面的fitz包，不要与pip install fitz混淆
             from rapidocr_onnxruntime import RapidOCR
             import numpy as np
             ocr = RapidOCR()
@@ -43,6 +44,13 @@ class RapidOCRPDFLoader(UnstructuredFileLoader):
 
 
 if __name__ == "__main__":
-    loader = RapidOCRPDFLoader(file_path="../tests/samples/ocr_test.pdf")
+    loader = UnstructuredAPIFileLoader(
+        # url='http://0.0.0.0:8000/general/v0/general',
+        file_path="../tests/samples/ocr_test.pdf",
+        skip_infer_table_types=[],
+        strategy=PartitionStrategy.HI_RES,
+        pdf_infer_table_structure=True,
+        pdf_extract_images=True)
     docs = loader.load()
+
     print(docs)
