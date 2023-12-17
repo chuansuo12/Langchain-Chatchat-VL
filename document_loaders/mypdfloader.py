@@ -45,8 +45,14 @@ class RapidOCRPDFLoader(UnstructuredFileLoader):
 
 if __name__ == "__main__":
     loader = UnstructuredAPIFileLoader(
-        # url='http://0.0.0.0:8000/general/v0/general',
+        url='http://211.71.15.34:8000/general/v0/general',
         file_path="../tests/samples/ocr_test.pdf",
+        extract_images_in_pdf=True,
+        infer_table_structure=True,
+        chunking_strategy="by_title",
+        max_characters=4000,
+        new_after_n_chars=3800,
+        combine_text_under_n_chars=2000,
         skip_infer_table_types=[],
         strategy=PartitionStrategy.HI_RES,
         pdf_infer_table_structure=True,
