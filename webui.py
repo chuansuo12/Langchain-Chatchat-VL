@@ -3,11 +3,12 @@ from webui_pages.utils import *
 from streamlit_option_menu import option_menu
 from webui_pages.dialogue.dialogue import dialogue_page, chat_box
 from webui_pages.knowledge_base.knowledge_base import knowledge_base_page
+from webui_pages.search_kb.search_kb import search_kb
+
 import os
 import sys
 from configs import VERSION
 from server.utils import api_address
-
 
 api = ApiRequest(base_url=api_address())
 
@@ -33,6 +34,10 @@ if __name__ == "__main__":
         "知识库管理": {
             "icon": "hdd-stack",
             "func": knowledge_base_page,
+        },
+        "知识库搜索": {
+            "icon": "search",
+            "func": search_kb,
         },
     }
 
